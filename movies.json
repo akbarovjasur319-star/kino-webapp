@@ -97,15 +97,16 @@
   },
   "9": {
     "id": "9",
-    "title": "Kung Fu Panda 3",
-    "year": 2018,
-    "genre": "kamediya",
-    "rating": 1.4,
-    "description": "Asosiy qahramon — dangasa, lekin juda quvnoq panda Po. U oddiy oshpaz yordamchisi bo‘lib ishlaydi, lekin ich-ichidan haqiqiy kung-fu ustasi bo‘lishni orzu qiladi.\nBir kuni u tasodifan “Ajdar jangchisi” (Dragon Warrior) deb tanlanadi 😄 va shu bilan uning hayoti butunlay o‘zgaradi. U mashhur ustoz Master Shifu va “Jahldor beshlik” (Furious Five) bilan mashg‘ulot qilib, yovuz kuchlarga qarshi kurashadi.",
+    "title": "Xaqiqiylar",
+    "year": 2012,
+    "genre": "drama",
+    "rating": 11.8,
+    "description": "Haqiqiylar” — bu hayotiy voqealarga yaqin, insoniy qadriyatlar va haqiqiylik mavzusini yoritadigan film sifatida tasvirlanadi. Kino asosan odamlarning asl yuzini, qiyin vaziyatlarda kim qanday yo‘l tutishini ko‘rsatadi.",
     "poster": "",
-    "trailer": "",
-    "file_id": "BAACAgQAAxkBAANNafC-4piIMyu2Ah63K0HHPgmhKrgAAlgZAALcPKlScHKswJ2As3g7BA",
+    "trailer": "https://youtube.com/shorts/BQjeJcNfcgA?si=eIF7QGZQha_L5lUC",
+    "file_id": "",
+    "full_video": "https://youtu.be/Xb_uDLm-RB4?si=w7CJcHukrnEU-LZC",
     "views": 0,
-    "added_date": "2026-04-30"
+    "added_date": "2026-05-01"
   }
 }
