@@ -1,0 +1,111 @@
+{
+  "1": {
+    "id": "1",
+    "title": "Inception",
+    "year": 2010,
+    "genre": "fantastika",
+    "rating": 8.8,
+    "description": "Dom Cobb noyob xavfsizlik ko'nikmasiga ega.",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg",
+    "trailer": "https://www.youtube.com/watch?v=YoHD9XEInc0",
+    "views": 15420,
+    "added_date": "2024-01-15"
+  },
+  "2": {
+    "id": "2",
+    "title": "Interstellar",
+    "year": 2014,
+    "genre": "fantastika",
+    "rating": 8.6,
+    "description": "Yer insoniyat uchun yashashga yaroqsiz bo'lib qolganda.",
+    "poster": "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
+    "trailer": "https://www.youtube.com/watch?v=zSWdZVtXT7E",
+    "views": 18230,
+    "added_date": "2024-02-20"
+  },
+  "3": {
+    "id": "3",
+    "title": "O'zbek Kino - Sevda",
+    "year": 2023,
+    "genre": "drama",
+    "rating": 7.5,
+    "description": "Ikki yosh sevishganning taqdirli hikoyasi.",
+    "poster": "https://via.placeholder.com/300x450/FF6B6B/FFFFFF?text=Sevda",
+    "trailer": "https://www.youtube.com/watch?v=demo123",
+    "views": 8900,
+    "added_date": "2024-03-10"
+  },
+  "4": {
+    "id": "4",
+    "title": "The Dark Knight",
+    "year": 2008,
+    "genre": "jangari",
+    "rating": 9.0,
+    "description": "Betmen, prokuror Harvey Dent va Gotham politsiyasi.",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_.jpg",
+    "trailer": "https://www.youtube.com/watch?v=EXeTwQWrcwY",
+    "views": 22100,
+    "added_date": "2024-01-05"
+  },
+  "5": {
+    "id": "5",
+    "title": "Parasite",
+    "year": 2019,
+    "genre": "drama",
+    "rating": 8.5,
+    "description": "Kambag'al oila boy oilaning uyiga kirib.",
+    "poster": "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3Mjc2N5Q2M2VlXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_.jpg",
+    "trailer": "https://www.youtube.com/watch?v=5xH0HfJHsaY",
+    "views": 16700,
+    "added_date": "2024-02-15"
+  },
+  "6": {
+    "id": "6",
+    "title": "Qasoskorlar: Intiho",
+    "year": 2019,
+    "genre": "jangari",
+    "rating": 8.4,
+    "description": "Qasoskorlar Thanosning amalga oshirgan rejasini bekor qilish.",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_.jpg",
+    "trailer": "https://www.youtube.com/watch?v=TcMBFSGVi1c",
+    "views": 30500,
+    "added_date": "2024-01-20"
+  },
+  "7": {
+    "id": "7",
+    "title": "Titanic",
+    "year": 1997,
+    "genre": "romantik",
+    "rating": 7.9,
+    "description": "Jack va Rose kema halokatida uchragan sevgi hikoyasi.",
+    "poster": "https://m.media-amazon.com/images/M/MV5BMDdmZGU3NDQtY2E5My00ZTliLWIzOTUtMTY4ZGI1YjdiNjk3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg",
+    "trailer": "https://www.youtube.com/watch?v=2e-eX6L0zF0",
+    "views": 45000,
+    "added_date": "2024-01-01"
+  },
+  "8": {
+    "id": "8",
+    "title": "Joker",
+    "year": 2019,
+    "genre": "drama",
+    "rating": 8.4,
+    "description": "Arthur Fleck jamiyat tomonidan e'tiborsiz qoldirilgan.",
+    "poster": "https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg",
+    "trailer": "https://www.youtube.com/watch?v=zAGVQLHvwOY",
+    "views": 28900,
+    "added_date": "2024-02-01"
+  },
+  "9": {
+    "id": "9",
+    "title": "Kung Fu Panda 3",
+    "year": 2018,
+    "genre": "kamediya",
+    "rating": 1.4,
+    "description": "Asosiy qahramon — dangasa, lekin juda quvnoq panda Po. U oddiy oshpaz yordamchisi bo‘lib ishlaydi, lekin ich-ichidan haqiqiy kung-fu ustasi bo‘lishni orzu qiladi.\nBir kuni u tasodifan “Ajdar jangchisi” (Dragon Warrior) deb tanlanadi 😄 va shu bilan uning hayoti butunlay o‘zgaradi. U mashhur ustoz Master Shifu va “Jahldor beshlik” (Furious Five) bilan mashg‘ulot qilib, yovuz kuchlarga qarshi kurashadi.",
+    "poster": "",
+    "trailer": "",
+    "file_id": "BAACAgQAAxkBAANNafC-4piIMyu2Ah63K0HHPgmhKrgAAlgZAALcPKlScHKswJ2As3g7BA",
+    "views": 0,
+    "added_date": "2026-04-30"
+  }
+}
