@@ -548,9 +548,9 @@ function openMovie(id) {
   `;
 
   // Treyler
-  renderVideo('trailerContainer', currentMovie.trailer);
+  renderVideo('trailerContainer', currentMovie.trailer || '');
   // To'liq kino
-  renderVideo('fullContainer', currentMovie.file_id);
+  renderVideo('fullContainer', currentMovie.full_video || currentMovie.trailer || '');
 
   // Default tab
   switchTab('trailer');
