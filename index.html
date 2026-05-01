@@ -394,13 +394,37 @@
   }
 
   .empty span { font-size: 48px; display: block; margin-bottom: 12px; }
+
+.logo-letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-40px) scale(0.5);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.logo-letter.drop {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.logo-letter.spread {
+  letter-spacing: 4px;
+  transition: letter-spacing 0.5s ease;
+}
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="header-top">
-    <div class="logo">🎬 Kino<span>Uz</span></div>
+    <div class="logo" id="animLogo">
+      <span class="logo-letter" id="ll0">🎬</span>
+      <span class="logo-letter" id="ll1">K</span>
+      <span class="logo-letter" id="ll2">i</span>
+      <span class="logo-letter" id="ll3">n</span>
+      <span class="logo-letter" id="ll4" style="color:#e50914">o</span>
+      <span class="logo-letter" id="ll5" style="color:#e50914">U</span>
+      <span class="logo-letter" id="ll6" style="color:#e50914">z</span>
+    </div>
+    <div style="font-size:13px;font-weight:700;color:#e50914;letter-spacing:0.5px;">JasurStudio</div>
   </div>
   <div class="search-box">
     <span>🔍</span>
@@ -603,6 +627,38 @@ document.getElementById('searchInput').addEventListener('input', renderMovies);
 // Ishga tushirish
 renderGenres();
 loadMovies();
+
+// Logo animatsiyasi
+function animateLogo() {
+  const letters = document.querySelectorAll('.logo-letter');
+  // Reset
+  letters.forEach(l => {
+    l.classList.remove('drop', 'spread');
+    l.style.opacity = '0';
+    l.style.transform = 'translateY(-40px) scale(0.5)';
+  });
+
+  // Har bir harf birin-ketin tushadi
+  letters.forEach((l, i) => {
+    setTimeout(() => {
+      l.style.opacity = '1';
+      l.style.transform = 'translateY(0) scale(1)';
+      l.classList.add('drop');
+    }, i * 120);
+  });
+
+  // Oxirida yoyiladi
+  setTimeout(() => {
+    letters.forEach(l => l.classList.add('spread'));
+    setTimeout(() => {
+      letters.forEach(l => l.classList.remove('spread'));
+    }, 1000);
+  }, letters.length * 120 + 300);
+}
+
+// Boshlash va har 8 soniyada takrorlash
+animateLogo();
+setInterval(animateLogo, 8000);
 </script>
 </body>
 </html>
