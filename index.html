@@ -582,6 +582,8 @@ function openMovie(id) {
   document.getElementById('modalOverlay').classList.add('open');
 }
 
+const VIDEO_SERVER = "https://kino-server-x1xi.onrender.com";
+
 function renderVideo(containerId, src) {
   const el = document.getElementById(containerId);
   if (!src) {
@@ -591,15 +593,23 @@ function renderVideo(containerId, src) {
   // YouTube link
   if (src.includes('youtube.com') || src.includes('youtu.be')) {
     const videoId = src.includes('youtu.be') 
-      ? src.split('youtu.be/')[1] 
+      ? src.split('youtu.be/')[1].split('?')[0]
       : src.split('v=')[1]?.split('&')[0];
     el.innerHTML = `<div class="video-container">
-      <iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/${videoId}?rel=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
     </div>`;
   } else if (src.startsWith('http')) {
     el.innerHTML = `<div class="video-container">
-      <video controls controlsList="nodownload" oncontextmenu="return false">
-        <source src="${src}">
+      <video controls controlsList="nodownload" oncontextmenu="return false" playsinline>
+        <source src="${src}" type="video/mp4">
+      </video>
+    </div>`;
+  } else if (src.length > 20) {
+    // Telegram file_id - server orqali ijro
+    el.innerHTML = `<div class="video-container">
+      <video controls controlsList="nodownload" oncontextmenu="return false" playsinline
+             onerror="this.parentElement.innerHTML='<div class=\'no-video\'><span>⏳</span>Server yuklanmoqda... (30 sek kuting)</div>'">
+        <source src="${VIDEO_SERVER}/video/${src}" type="video/mp4">
       </video>
     </div>`;
   } else {
