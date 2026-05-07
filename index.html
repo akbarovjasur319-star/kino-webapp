@@ -539,7 +539,9 @@ function renderMovies() {
 
   el.innerHTML = movies.map((m, i) => `
     <div class="movie-card" style="animation-delay:${i * 0.05}s" onclick="openMovie('${m.id}')">
-      <div class="movie-poster-placeholder">🎬</div>
+      <div class="movie-poster-placeholder">
+        ${m.poster ? \`<img src="\${m.poster}" style="width:100%;height:100%;object-fit:cover;border-radius:12px 12px 0 0;" onerror="this.style.display='none'">\` : '🎬'}
+      </div>
       <div class="movie-info">
         <div class="movie-title">${m.title}</div>
         <div class="movie-meta">
