@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📺 TV - KinoUz</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap');
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Montserrat',sans-serif; background:#050508; color:#fff; min-height:100vh; }
+
+.header { background:linear-gradient(180deg,#0a0a0f 0%,transparent 100%); padding:16px; position:sticky; top:0; z-index:100; backdrop-filter:blur(20px); }
+.header-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.logo { font-size:20px; font-weight:900; }
+.logo span { color:#e50914; }
+.live-badge { display:flex; align-items:center; gap:6px; background:rgba(229,9,20,0.15); border:1px solid rgba(229,9,20,0.3); padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; color:#e50914; }
+.live-dot { width:6px; height:6px; border-radius:50%; background:#e50914; animation:blink 1s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+.search-box { display:flex; align-items:center; background:#13131a; border:1px solid #1e1e2e; border-radius:12px; padding:8px 14px; gap:8px; }
+.search-box input { background:none; border:none; outline:none; color:#fff; font-family:'Montserrat',sans-serif; font-size:14px; width:100%; }
+.search-box input::placeholder { color:#555577; }
+
+.cats-scroll { display:flex; gap:8px; overflow-x:auto; padding:12px 16px; scrollbar-width:none; }
+.cats-scroll::-webkit-scrollbar { display:none; }
+.cat-chip { flex-shrink:0; padding:6px 16px; border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; border:1.5px solid #1e1e2e; color:#555577; background:#13131a; transition:all 0.2s; white-space:nowrap; }
+.cat-chip.active { background:#e50914; border-color:#e50914; color:#fff; }
+
+.channels-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 16px 100px; }
+
+.channel-card { background:#13131a; border-radius:16px; overflow:hidden; border:1px solid #1e1e2e; cursor:pointer; transition:transform 0.2s; animation:fadeIn 0.4s ease both; }
+.channel-card:active { transform:scale(0.97); }
+@keyframes fadeIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+
+.channel-logo { width:100%; aspect-ratio:16/9; background:linear-gradient(135deg,#1a1a2e,#16213e); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.channel-logo img { width:100%; height:100%; object-fit:contain; padding:8px; }
+.channel-logo .emoji-icon { font-size:36px; }
+.live-indicator { position:absolute; top:6px; right:6px; background:#e50914; color:#fff; font-size:9px; font-weight:800; padding:2px 6px; border-radius:4px; letter-spacing:1px; }
+
+.channel-info { padding:10px; }
+.channel-name { font-size:12px; font-weight:700; margin-bottom:3px; line-height:1.3; }
+.channel-cat { font-size:10px; color:#555577; }
+
+/* Modal */
+.modal-overlay { position:fixed; inset:0; background:#000; z-index:200; display:none; flex-direction:column; }
+.modal-overlay.open { display:flex; }
+.modal-header { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:#0a0a0f; }
+.modal-title { font-size:15px; font-weight:800; }
+.close-btn { background:#1a1a2e; border:none; color:#fff; width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
+
+.player-wrap { width:100%; aspect-ratio:16/9; background:#000; position:relative; }
+.player-wrap video { width:100%; height:100%; }
+.player-placeholder { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:#555577; }
+.player-placeholder span { font-size:40px; }
+.loading-spinner { width:32px; height:32px; border:3px solid #1e1e2e; border-top-color:#e50914; border-radius:50%; animation:spin 0.8s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg);} }
+
+.channel-detail { padding:16px; flex:1; overflow-y:auto; }
+.detail-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.detail-logo { width:56px; height:56px; border-radius:12px; background:#1a1a2e; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.detail-logo img { width:100%; height:100%; object-fit:contain; padding:4px; }
+.detail-name { font-size:18px; font-weight:900; margin-bottom:4px; }
+.detail-badges { display:flex; gap:8px; flex-wrap:wrap; }
+.badge { padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; }
+.badge-cat { background:rgba(229,9,20,0.15); color:#e50914; }
+.badge-quality { background:rgba(255,255,255,0.08); color:#aaa; }
+.badge-live { background:#e50914; color:#fff; }
+
+.empty { text-align:center; padding:40px 20px; color:#555577; grid-column:1/-1; }
+.empty span { font-size:48px; display:block; margin-bottom:12px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo">📺 TV <span>Kanallar</span></div>
+    <div class="live-badge"><div class="live-dot"></div>JONLI EFIR</div>
+  </div>
+  <div class="search-box">
+    <span>🔍</span>
+    <input type="text" id="searchInput" placeholder="Kanal qidirish...">
+  </div>
+</div>
+
+<div class="cats-scroll" id="catsList"></div>
+<div class="channels-grid" id="channelsList"></div>
+
+<!-- Player Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-header">
+    <div class="modal-title" id="modalTitle"></div>
+    <button class="close-btn" onclick="closeModal()">✕</button>
+  </div>
+  <div class="player-wrap">
+    <video id="videoPlayer" controls playsinline></video>
+    <div class="player-placeholder" id="playerPlaceholder">
+      <div class="loading-spinner"></div>
+      <p>Yuklanmoqda...</p>
+    </div>
+  </div>
+  <div class="channel-detail">
+    <div class="detail-header">
+      <div class="detail-logo"><img id="detailLogo" src="" alt=""></div>
+      <div>
+        <div class="detail-name" id="detailName"></div>
+        <div class="detail-badges">
+          <span class="badge badge-live">🔴 JONLI</span>
+          <span class="badge badge-cat" id="detailCat"></span>
+          <span class="badge badge-quality" id="detailQuality"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const tg = window.Telegram?.WebApp;
+if(tg) { tg.expand(); tg.setHeaderColor('#050508'); }
+
+const channels = [
+  {id:1, name:"O'zbekiston", cat:"Umumiy", quality:"576p", logo:"https://i.imgur.com/QUIIhTD.png", url:"https://stream8.cinerama.uz/1001/tracks-v1a1/playlist.m3u8"},
+  {id:2, name:"Yoshlar", cat:"Umumiy", quality:"1080p", logo:"https://i.imgur.com/s4xfUSx.png", url:"https://stream8.cinerama.uz/1002/tracks-v1a1/playlist.m3u8"},
+  {id:3, name:"Toshkent", cat:"Umumiy", quality:"576p", logo:"https://i.imgur.com/Z9R4nZg.png", url:"https://stream8.cinerama.uz/1003/tracks-v1a1/playlist.m3u8"},
+  {id:4, name:"Madaniyat va Ma'rifat", cat:"Umumiy", quality:"576p", logo:"https://i.imgur.com/eeNLXCP.png", url:"https://stream8.cinerama.uz/1005/tracks-v1a1/playlist.m3u8"},
+  {id:5, name:"Dunyo bo'ylab", cat:"Umumiy", quality:"1080p", logo:"https://i.imgur.com/KArB5U6.png", url:"https://stream8.cinerama.uz/1006/tracks-v1a1/playlist.m3u8"},
+  {id:6, name:"Bolajon", cat:"Bolalar", quality:"576p", logo:"https://i.imgur.com/s7o0ifu.png", url:"https://stream8.cinerama.uz/1007/playlist.m3u8"},
+  {id:7, name:"Navo", cat:"Umumiy", quality:"576p", logo:"https://i.imgur.com/7dZ64y9.png", url:"https://stream8.cinerama.uz/1008/tracks-v1a1/playlist.m3u8"},
+  {id:8, name:"Kinoteatr", cat:"Kino", quality:"1080p", logo:"https://i.imgur.com/emH1BgC.png", url:"https://stream8.cinerama.uz/1009/tracks-v1a1/playlist.m3u8"},
+  {id:9, name:"O'zbekiston 24", cat:"Yangiliklar", quality:"1080p", logo:"https://i.imgur.com/VRFhKbw.png", url:"https://stream8.cinerama.uz/1011/tracks-v1a1/playlist.m3u8"},
+  {id:10, name:"Mahalla", cat:"Umumiy", quality:"576p", logo:"https://i.imgur.com/GtABiJI.png", url:"https://stream8.cinerama.uz/1013/tracks-v1a1/playlist.m3u8"},
+  {id:11, name:"Milliy", cat:"Umumiy", quality:"1080p", logo:"https://i.imgur.com/v4FBm26.png", url:"https://stream8.cinerama.uz/1014/tracks-v1a1/playlist.m3u8"},
+  {id:12, name:"UzReport TV", cat:"Yangiliklar", quality:"1080p", logo:"https://i.imgur.com/Bch2RHc.jpg", url:"https://stream8.cinerama.uz/1015/tracks-v1a1/playlist.m3u8"},
+  {id:13, name:"Zo'r TV", cat:"Ko'ngilochar", quality:"576p", logo:"https://i.imgur.com/NuzyhVM.png", url:"https://stream8.cinerama.uz/1016/tracks-v1a1/mono.m3u8"},
+  {id:14, name:"Sevimli TV", cat:"Oila", quality:"1080p", logo:"https://i.imgur.com/iMwzRlr.png", url:"https://stream8.cinerama.uz/1017/tracks-v1a1/playlist.m3u8"},
+  {id:15, name:"MY5", cat:"Ko'ngilochar", quality:"1080p", logo:"https://i.imgur.com/bjlzu5k.png", url:"https://st.my5.media/hls/hd/index.m3u8"},
+  {id:16, name:"Renessans TV", cat:"Umumiy", quality:"576p", logo:"https://i.imgur.com/cVlcqCX.png", url:"https://stream8.cinerama.uz/1221/tracks-v1a1/playlist.m3u8"},
+  {id:17, name:"BIZ TV", cat:"Ko'ngilochar", quality:"1080p", logo:"https://biztv.uz/static/media/logo.5f993187.png", url:"https://fl.biztv.media/biz_tv_720_uni8jhub4h8fub4idejswh8dh3j94finbu4nidj39inwsj92in3d/index.m3u8"},
+  {id:18, name:"BIZ Cinema", cat:"Kino", quality:"1080p", logo:"https://biztv.uz/static/media/biz-cinema.286b83dc.png", url:"https://fl.biztv.media/cinema_720_EMfSyXgoRdiIHgldXTZICucKTIeCKO/index.m3u8"},
+  {id:19, name:"BIZ Music", cat:"Musiqa", quality:"1080p", logo:"https://i.ibb.co/DfsCJwk/Uz-biz-music-5462.jpg", url:"https://fl.biztv.media/music_720_QAKpGmVUjaPApCNjpsgBxrdqNihAkl/index.m3u8"},
+  {id:20, name:"FTV", cat:"Musiqa", quality:"576p", logo:"https://i.imgur.com/7lpISyN.jpg", url:"https://stream8.cinerama.uz/1018/playlist.m3u8"},
+  {id:21, name:"O'zbekiston Tarixi", cat:"Hujjatli", quality:"1080p", logo:"https://i.imgur.com/iTTd3Ir.png", url:"https://stream8.cinerama.uz/1209/tracks-v1a1/playlist.m3u8"},
+  {id:22, name:"Dasturxon TV", cat:"Umumiy", quality:"576p", logo:"https://i.imgur.com/APM2ej5.jpeg", url:"https://stream8.cinerama.uz/1206/tracks-v1a1/playlist.m3u8"},
+  {id:23, name:"Andijon MTRK", cat:"Viloyat", quality:"576i", logo:"https://i.imgur.com/EGPAvom.jpeg", url:"https://stream8.cinerama.uz/1457/tracks-v1a1/mono.m3u8"},
+  {id:24, name:"Buxoro MTRK", cat:"Viloyat", quality:"720p", logo:"https://i.imgur.com/jmxPtC9.png", url:"https://stream8.cinerama.uz/1459/tracks-v1a1/mono.m3u8"},
+  {id:25, name:"Farg'ona MTRK", cat:"Viloyat", quality:"576p", logo:"https://i.imgur.com/RYjQOfo.jpeg", url:"https://stream8.cinerama.uz/1458/tracks-v1a1/mono.m3u8"},
+  {id:26, name:"Navoiy MTRK", cat:"Viloyat", quality:"576i", logo:"https://i.imgur.com/qa4VlYh.png", url:"https://stream8.cinerama.uz/1460/tracks-v1a1/mono.m3u8"},
+  {id:27, name:"Qaraqalpaqstan", cat:"Viloyat", quality:"720p", logo:"https://i.imgur.com/G3qrUJh.png", url:"https://stream8.cinerama.uz/1467/playlist.m3u8"},
+  {id:28, name:"Makon TV", cat:"Ko'ngilochar", quality:"576i", logo:"https://i.imgur.com/vCc0ED1.png", url:"https://stream8.cinerama.uz/1497/tracks-v1a1/mono.m3u8"},
+];
+
+const cats = ["Barchasi","Umumiy","Yangiliklar","Kino","Musiqa","Bolalar","Oila","Ko'ngilochar","Viloyat","Hujjatli"];
+let activeCat = "Barchasi";
+let hlsInstance = null;
+
+function renderCats() {
+  document.getElementById('catsList').innerHTML = cats.map(c =>
+    '<div class="cat-chip ' + (c===activeCat?'active':'') + '" onclick="filterCat(\'' + c + '\')">' + c + '</div>'
+  ).join('');
+}
+
+function filterCat(cat) {
+  activeCat = cat;
+  renderCats();
+  renderChannels();
+}
+
+function renderChannels() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  let list = channels;
+  if(activeCat !== 'Barchasi') list = list.filter(c => c.cat === activeCat);
+  if(search) list = list.filter(c => c.name.toLowerCase().includes(search));
+  
+  const el = document.getElementById('channelsList');
+  if(!list.length) {
+    el.innerHTML = '<div class="empty"><span>📺</span>Kanal topilmadi</div>';
+    return;
+  }
+  
+  let html = '';
+  list.forEach(function(ch, i) {
+    html += '<div class="channel-card" style="animation-delay:' + (i*0.04) + 's" onclick="openChannel(' + ch.id + ')">';
+    html += '<div class="channel-logo">';
+    html += '<img src="' + ch.logo + '" alt="' + ch.name + '" onerror="this.style.display=\'none\'">';
+    html += '<div class="live-indicator">LIVE</div>';
+    html += '</div>';
+    html += '<div class="channel-info">';
+    html += '<div class="channel-name">' + ch.name + '</div>';
+    html += '<div class="channel-cat">' + ch.cat + ' • ' + ch.quality + '</div>';
+    html += '</div></div>';
+  });
+  el.innerHTML = html;
+}
+
+function openChannel(id) {
+  const ch = channels.find(c => c.id === id);
+  if(!ch) return;
+  
+  document.getElementById('modalTitle').textContent = ch.name;
+  document.getElementById('detailName').textContent = ch.name;
+  document.getElementById('detailCat').textContent = ch.cat;
+  document.getElementById('detailQuality').textContent = ch.quality;
+  document.getElementById('detailLogo').src = ch.logo;
+  document.getElementById('playerPlaceholder').style.display = 'flex';
+  
+  const video = document.getElementById('videoPlayer');
+  video.style.display = 'none';
+  
+  if(hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
+  
+  if(Hls.isSupported()) {
+    hlsInstance = new Hls();
+    hlsInstance.loadSource(ch.url);
+    hlsInstance.attachMedia(video);
+    hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
+      document.getElementById('playerPlaceholder').style.display = 'none';
+      video.style.display = 'block';
+      video.play().catch(e => console.log(e));
+    });
+    hlsInstance.on(Hls.Events.ERROR, function(e, data) {
+      if(data.fatal) {
+        document.getElementById('playerPlaceholder').innerHTML = '<span>📡</span><p>Kanal hozir mavjud emas</p>';
+      }
+    });
+  } else if(video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = ch.url;
+    video.addEventListener('loadedmetadata', function() {
+      document.getElementById('playerPlaceholder').style.display = 'none';
+      video.style.display = 'block';
+      video.play();
+    });
+  }
+  
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  if(hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
+  const video = document.getElementById('videoPlayer');
+  video.pause();
+  video.src = '';
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.getElementById('playerPlaceholder').innerHTML = '<div class="loading-spinner"></div><p>Yuklanmoqda...</p>';
+}
+
+document.getElementById('searchInput').addEventListener('input', renderChannels);
+renderCats();
+renderChannels();
+</script>
+</body>
+</html>
