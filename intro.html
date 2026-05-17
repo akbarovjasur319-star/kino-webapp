@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="uz">
 <head>
@@ -255,6 +256,142 @@ body { font-family:'Montserrat',sans-serif; background:#050508; color:#fff; over
 .ch-btn.online { background:linear-gradient(135deg,#e50914,#b20000); color:#fff; box-shadow:0 8px 24px rgba(229,9,20,0.3); }
 .bot-tag { font-size:11px; color:#333355; z-index:2; opacity:0; transition:all 0.6s ease; }
 .bot-tag.show { opacity:1; }
+
+/* ===== KINO FONI ANIMATSIYASI ===== */
+.cinema-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Film tasmasi */
+.film-tape {
+  position: absolute;
+  display: flex;
+  gap: 4px;
+  animation: tapeMove linear infinite;
+  opacity: 0.12;
+}
+
+.film-tape-top {
+  top: 0;
+  left: -100%;
+  animation-duration: 20s;
+}
+
+.film-tape-bottom {
+  bottom: 0;
+  left: 0;
+  animation-duration: 25s;
+  animation-direction: reverse;
+}
+
+.film-hole {
+  width: 32px;
+  height: 24px;
+  background: transparent;
+  border: 2px solid #e50914;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+@keyframes tapeMove {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+
+/* Kino kadrlar */
+.film-frames {
+  position: absolute;
+  top: 50%;
+  left: -200px;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 8px;
+  animation: framesScroll 30s linear infinite;
+  opacity: 0.06;
+}
+
+.film-frame {
+  width: 80px;
+  height: 60px;
+  border: 1px solid #e50914;
+  border-radius: 2px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #1a0000, #000);
+}
+
+@keyframes framesScroll {
+  from { transform: translateY(-50%) translateX(0); }
+  to { transform: translateY(-50%) translateX(calc(100vw + 400px)); }
+}
+
+/* Yulduzlar */
+.cinema-star {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+  animation: starBlink var(--sd) ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes starBlink {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+/* Kino tasma chiziqlar */
+.scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(229,9,20,0.3), transparent);
+  animation: scanDown var(--sl) linear infinite;
+  opacity: 0;
+}
+
+@keyframes scanDown {
+  0% { top: -2px; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Kino klapperboard animatsiya */
+.floating-icon {
+  position: absolute;
+  font-size: var(--fs, 24px);
+  opacity: 0;
+  animation: floatUp var(--fd) ease-in-out infinite;
+  animation-delay: var(--fdelay);
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(20px) rotate(-10deg); }
+  20% { opacity: 0.15; }
+  80% { opacity: 0.15; }
+  100% { opacity: 0; transform: translateY(-60px) rotate(10deg); }
+}
+
+/* Gradient overlay */
+.cinema-gradient {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(229,9,20,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(0,0,100,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 0%, rgba(229,9,20,0.05) 0%, transparent 40%);
+  animation: gradientPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes gradientPulse {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
 </style>
 </head>
 <body>
@@ -314,7 +451,7 @@ body { font-family:'Montserrat',sans-serif; background:#050508; color:#fff; over
       <div class="a-role">👨‍💻 Admin 24/7</div>
       <div class="a-links">
         <a class="a-link" href="https://t.me/Jas_ak1ns">@Jas_ak1ns</a>
-        <a class="a-link" href="https://instagram.com/Jas_ak1ns">📷 Instagram</a>
+        <a class="a-link" href="https://instagram.com/1_Jas_ak1ns">📷 Instagram</a>
       </div>
     </div>
   </div>
@@ -322,7 +459,7 @@ body { font-family:'Montserrat',sans-serif; background:#050508; color:#fff; over
     <div class="s-title">💫 Ijtimoiy tarmoqlar</div>
     <div class="s-links">
       <a class="s-link" href="https://t.me/Jasur_kino_uz_kanal" target="_blank">✈️ Telegram</a>
-      <a class="s-link" href="https://instagram.com/Jas_ak1ns" target="_blank">📷 Instagram</a>
+      <a class="s-link" href="https://instagram.com/1_Jas_ak1ns" target="_blank">📷 Instagram</a>
     </div>
   </div>
   <div class="mehnat" id="mehnat">Har bir kino <em>sevgi va mehnat</em> bilan tanlangan.<br>Bizni qo'llab-quvvatlang — obuna bo'ling! 🙏</div>
@@ -357,6 +494,8 @@ body { font-family:'Montserrat',sans-serif; background:#050508; color:#fff; over
   <div class="channel-btns" id="chanBtns">
     <a href="https://t.me/Jasur_kino_uz_kanal" class="ch-btn tg" target="_blank">✈️ Bizning Telegram kanalimiz</a>
     <a href="index.html" class="ch-btn online">🎬 Onlayn Ko'rish</a>
+    <a href="tv.html" class="ch-btn" style="background:linear-gradient(135deg,#0a0a8e,#1a1aaa);box-shadow:0 8px 24px rgba(0,0,150,0.3);">📺 TV Ko'rish</a>
+    <a href="tv.html" class="ch-btn" style="background:linear-gradient(135deg,#0a0a8e,#1a1aaa);box-shadow:0 8px 24px rgba(0,0,150,0.3);">📺 TV Ko'rish</a>
   </div>
   <div class="bot-tag" id="botTag">🤖 @uzbek_kino_uzb_bot</div>
 </div>
@@ -479,6 +618,67 @@ function goPage(n) {
 createTapeHoles();
 createFilmLines();
 createParticles();
+
+// ===== KINO FONI YARATISH =====
+function createCinemaBg() {
+  // Film teshiklar
+  ['tapeTop', 'tapeBottom'].forEach(id => {
+    const tape = document.getElementById(id);
+    for(let i = 0; i < 60; i++) {
+      const hole = document.createElement('div');
+      hole.className = 'film-hole';
+      tape.appendChild(hole);
+    }
+  });
+
+  // Kino kadrlar
+  const frames = document.getElementById('filmFrames');
+  for(let i = 0; i < 20; i++) {
+    const frame = document.createElement('div');
+    frame.className = 'film-frame';
+    frames.appendChild(frame);
+  }
+
+  // Yulduzlar
+  const bg = document.getElementById('cinemaBg');
+  for(let i = 0; i < 60; i++) {
+    const star = document.createElement('div');
+    star.className = 'cinema-star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.setProperty('--sd', (2 + Math.random() * 5) + 's');
+    star.style.animationDelay = (Math.random() * 5) + 's';
+    const size = (1 + Math.random() * 2) + 'px';
+    star.style.width = star.style.height = size;
+    bg.appendChild(star);
+  }
+
+  // Skan chiziqlari
+  for(let i = 0; i < 3; i++) {
+    const line = document.createElement('div');
+    line.className = 'scan-line';
+    line.style.setProperty('--sl', (8 + i * 4) + 's');
+    line.style.animationDelay = (i * 3) + 's';
+    bg.appendChild(line);
+  }
+
+  // Suzuvchi ikonlar
+  const icons = ['🎬', '🎭', '🎥', '🍿', '⭐', '🎞️', '🏆', '🎦'];
+  icons.forEach((icon, i) => {
+    const el = document.createElement('div');
+    el.className = 'floating-icon';
+    el.textContent = icon;
+    el.style.left = (5 + i * 12) + '%';
+    el.style.top = (20 + Math.random() * 60) + '%';
+    el.style.setProperty('--fs', (16 + Math.random() * 20) + 'px');
+    el.style.setProperty('--fd', (6 + Math.random() * 8) + 's');
+    el.style.setProperty('--fdelay', (i * 1.5) + 's');
+    bg.appendChild(el);
+  });
+}
+
+createCinemaBg();
+
 startPage1();
 </script>
 </body>
