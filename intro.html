@@ -176,7 +176,7 @@ body { font-family:'Montserrat',sans-serif; background:#050508; color:#fff; over
 
 .tagline { font-size:11px; color:#444466; letter-spacing:2px; text-transform:uppercase; z-index:2; opacity:0; transition:opacity 0.6s; margin-top:18px; align-self:center; }
 .tagline.show { opacity:1; }
-.next-btn { background:none; border:1.5px solid #e50914; color:#e50914; padding:10px 32px; border-radius:50px; font-size:12px; font-family:'Montserrat',sans-serif; font-weight:700; cursor:pointer; opacity:0; transition:all 0.5s; letter-spacing:1px; z-index:20; margin-top:14px; align-self:center; }
+.next-btn { background:none; border:1.5px solid #e50914; color:#e50914; padding:10px 32px; border-radius:50px; font-size:12px; font-family:'Montserrat',sans-serif; font-weight:700; cursor:pointer; opacity:0; transition:all 0.5s; letter-spacing:1px; z-index:10; margin-top:14px; align-self:center; }
 .next-btn.show { opacity:1; }
 .next-btn:active { background:#e50914; color:#fff; }
 
@@ -261,7 +261,7 @@ body { font-family:'Montserrat',sans-serif; background:#050508; color:#fff; over
 .cinema-bg {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   overflow: hidden;
   pointer-events: none;
 }
@@ -621,10 +621,26 @@ createParticles();
 
 // ===== KINO FONI YARATISH =====
 function createCinemaBg() {
-  const bg = document.getElementById('cinemaBg');
-  if(!bg) return;
+  // Film teshiklar
+  ['tapeTop', 'tapeBottom'].forEach(id => {
+    const tape = document.getElementById(id);
+    for(let i = 0; i < 60; i++) {
+      const hole = document.createElement('div');
+      hole.className = 'film-hole';
+      tape.appendChild(hole);
+    }
+  });
+
+  // Kino kadrlar
+  const frames = document.getElementById('filmFrames');
+  for(let i = 0; i < 20; i++) {
+    const frame = document.createElement('div');
+    frame.className = 'film-frame';
+    frames.appendChild(frame);
+  }
 
   // Yulduzlar
+  const bg = document.getElementById('cinemaBg');
   for(let i = 0; i < 60; i++) {
     const star = document.createElement('div');
     star.className = 'cinema-star';
@@ -637,9 +653,18 @@ function createCinemaBg() {
     bg.appendChild(star);
   }
 
+  // Skan chiziqlari
+  for(let i = 0; i < 3; i++) {
+    const line = document.createElement('div');
+    line.className = 'scan-line';
+    line.style.setProperty('--sl', (8 + i * 4) + 's');
+    line.style.animationDelay = (i * 3) + 's';
+    bg.appendChild(line);
+  }
+
   // Suzuvchi ikonlar
   const icons = ['🎬', '🎭', '🎥', '🍿', '⭐', '🎞️', '🏆', '🎦'];
-  icons.forEach(function(icon, i) {
+  icons.forEach((icon, i) => {
     const el = document.createElement('div');
     el.className = 'floating-icon';
     el.textContent = icon;
