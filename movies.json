@@ -96,7 +96,7 @@
     "trailer": "https://youtube.com/shorts/w8Yi_flj2zM?si=byKJwqU28OfCIiBD",
     "file_id": "",
     "full_video": "https://youtu.be/1luJTNyxMtY?si=OETCkt7dGISDtA2_",
-    "views": 0,
+    "views": 1,
     "added_date": "2026-05-02"
   },
   "11": {
@@ -237,6 +237,20 @@
     "file_id": "BAACAgQAAxkBAAICPGoOdELgdO9_L9SeWB45DmLY1kzCAAKnGAACiddQUTGP-tVOAYjGOwQ",
     "full_video": "",
     "views": 1,
+    "added_date": "2026-05-21"
+  },
+  "21": {
+    "id": "21",
+    "title": "🎬Arvoh Poygachi 1",
+    "year": 2018,
+    "genre": "fantastika",
+    "rating": 2.3,
+    "description": "Yangi kinolar Faqat bizda",
+    "poster": "",
+    "trailer": "",
+    "file_id": "BAACAgQAAxkBAAICpWoO3fHeUwRvmTzOtssmttQN25HvAAIXCAACnElIU7Tmtbo5V-aeOwQ",
+    "full_video": "",
+    "views": 0,
     "added_date": "2026-05-21"
   }
 }
