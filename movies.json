@@ -1,16 +1,4 @@
 {
-  "1": {
-    "id": "1",
-    "title": "Inception",
-    "year": 2010,
-    "genre": "fantastika",
-    "rating": 8.8,
-    "description": "Dom Cobb noyob xavfsizlik ko'nikmasiga ega.",
-    "poster": "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg",
-    "trailer": "https://www.youtube.com/watch?v=YoHD9XEInc0",
-    "views": 15420,
-    "added_date": "2024-01-15"
-  },
   "2": {
     "id": "2",
     "title": "Interstellar",
@@ -260,7 +248,7 @@
     "trailer": "",
     "file_id": "BAACAgQAAxkBAAICPGoOdELgdO9_L9SeWB45DmLY1kzCAAKnGAACiddQUTGP-tVOAYjGOwQ",
     "full_video": "",
-    "views": 0,
+    "views": 1,
     "added_date": "2026-05-21"
   }
 }
