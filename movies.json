@@ -8,7 +8,7 @@
     "description": "Ikki yosh sevishganning taqdirli hikoyasi.",
     "poster": "https://via.placeholder.com/300x450/FF6B6B/FFFFFF?text=Sevda",
     "trailer": "https://www.youtube.com/watch?v=demo123",
-    "views": 8900,
+    "views": 8901,
     "added_date": "2024-03-10"
   },
   "4": {
@@ -236,7 +236,7 @@
     "trailer": "",
     "file_id": "BAACAgQAAxkBAAICPGoOdELgdO9_L9SeWB45DmLY1kzCAAKnGAACiddQUTGP-tVOAYjGOwQ",
     "full_video": "",
-    "views": 1,
+    "views": 2,
     "added_date": "2026-05-21"
   },
   "21": {
@@ -250,7 +250,7 @@
     "trailer": "",
     "file_id": "BAACAgQAAxkBAAICpWoO3fHeUwRvmTzOtssmttQN25HvAAIXCAACnElIU7Tmtbo5V-aeOwQ",
     "full_video": "",
-    "views": 1,
+    "views": 4,
     "added_date": "2026-05-21"
   },
   "22": {
@@ -266,5 +266,33 @@
     "full_video": "",
     "views": 0,
     "added_date": "2026-05-21"
+  },
+  "23": {
+    "id": "23",
+    "title": "2025 mutfilim🔞",
+    "year": 2023,
+    "genre": "komediya",
+    "rating": 9.6,
+    "description": "Katta uchun Mutifilm🔞",
+    "poster": "",
+    "trailer": "",
+    "file_id": "BAACAgQAAxkBAAIDoWoR-Lv6tLxLE4iHRuuxRfRZrfUEAAINHAAC_8IYUuPvPD3iYF8fOwQ",
+    "full_video": "",
+    "views": 1,
+    "added_date": "2026-05-23"
+  },
+  "24": {
+    "id": "24",
+    "title": "Men Robotman",
+    "year": 2004,
+    "genre": "fantastika",
+    "rating": 8.5,
+    "description": "Yangi kino",
+    "poster": "",
+    "trailer": "",
+    "file_id": "",
+    "full_video": "",
+    "views": 0,
+    "added_date": "2026-05-24"
   }
 }
