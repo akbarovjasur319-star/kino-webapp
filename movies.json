@@ -236,7 +236,7 @@
     "trailer": "",
     "file_id": "BAACAgQAAxkBAAICPGoOdELgdO9_L9SeWB45DmLY1kzCAAKnGAACiddQUTGP-tVOAYjGOwQ",
     "full_video": "",
-    "views": 2,
+    "views": 5,
     "added_date": "2026-05-21"
   },
   "21": {
@@ -250,7 +250,7 @@
     "trailer": "",
     "file_id": "BAACAgQAAxkBAAICpWoO3fHeUwRvmTzOtssmttQN25HvAAIXCAACnElIU7Tmtbo5V-aeOwQ",
     "full_video": "",
-    "views": 4,
+    "views": 12,
     "added_date": "2026-05-21"
   },
   "22": {
@@ -264,7 +264,7 @@
     "trailer": "",
     "file_id": "BAACAgQAAxkBAAICwmoO4wt4bWIyEJhc94s_1fQbU0GgAAIJDAAC2oCJUdRBXSG7RQVXOwQ",
     "full_video": "",
-    "views": 0,
+    "views": 1,
     "added_date": "2026-05-21"
   },
   "23": {
@@ -278,7 +278,7 @@
     "trailer": "",
     "file_id": "BAACAgQAAxkBAAIDoWoR-Lv6tLxLE4iHRuuxRfRZrfUEAAINHAAC_8IYUuPvPD3iYF8fOwQ",
     "full_video": "",
-    "views": 2,
+    "views": 9,
     "added_date": "2026-05-23"
   },
   "24": {
@@ -292,7 +292,7 @@
     "trailer": "",
     "file_id": "",
     "full_video": "",
-    "views": 2,
+    "views": 6,
     "added_date": "2026-05-24"
   },
   "25": {
@@ -306,7 +306,7 @@
     "trailer": "",
     "file_id": "BAACAgQAAxkBAAID1moSvCiXk2yEA6c54FZecanqMWBnAAJnEwAC3ln4UQPTRJb2e2--OwQ",
     "full_video": "",
-    "views": 1,
+    "views": 15,
     "added_date": "2026-05-24"
   },
   "26": {
@@ -320,7 +320,7 @@
     "trailer": "",
     "file_id": "BAACAgQAAxkBAAIEEGoS0P5LPHs8Q_0AAY-gzIUwYJ6t2QACgBgAAiDb6FBR93PQVV_F9zsE",
     "full_video": "",
-    "views": 0,
+    "views": 2,
     "added_date": "2026-05-24"
   },
   "27": {
@@ -334,7 +334,21 @@
     "trailer": "",
     "file_id": "BAACAgQAAxkBAAIEK2oTNtZ-f4h9T6Gu7cIIPefClauxAAI1GAACgrvIUCnK9_rzrhZtOwQ",
     "full_video": "",
-    "views": 0,
+    "views": 2,
     "added_date": "2026-05-24"
+  },
+  "28": {
+    "id": "28",
+    "title": "Yangi uzb kino",
+    "year": 2029,
+    "genre": "drama",
+    "rating": 7.8,
+    "description": "Uzb kino",
+    "poster": "",
+    "trailer": "",
+    "file_id": "BAACAgQAAxkBAAIHGmoi_5VNgAMiuKxPMLMuAAEUUQLnXAACdQoAAiQQAVD4IfDsfCaduTsE",
+    "full_video": "",
+    "views": 0,
+    "added_date": "2026-06-05"
   }
 }
