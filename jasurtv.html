@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="uz">
 <head>
@@ -10,7 +11,6 @@ body{background:#000;color:#fff;font-family:-apple-system,sans-serif;height:100v
 #player-wrap{position:relative;width:100%;height:100vh;background:#000}
 video{width:100%;height:100%;object-fit:contain}
 
-/* ── WATERMARK ── */
 #watermark{
   position:absolute;top:14px;right:14px;
   display:flex;align-items:center;gap:6px;
@@ -20,14 +20,10 @@ video{width:100%;height:100%;object-fit:contain}
   font-size:18px;font-weight:900;
   background:linear-gradient(135deg,#e50914,#ff6b00);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  text-shadow:none;letter-spacing:1px;
+  letter-spacing:1px;
   animation:wmark 12s infinite;
 }
-#wdot{
-  width:8px;height:8px;border-radius:50%;
-  background:#e50914;
-  animation:blink 1.5s ease-in-out infinite;
-}
+#wdot{width:8px;height:8px;border-radius:50%;background:#e50914;animation:blink 1.5s ease-in-out infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 @keyframes wmark{
   0%,8%{opacity:1;font-size:18px;letter-spacing:1px}
@@ -35,33 +31,23 @@ video{width:100%;height:100%;object-fit:contain}
   37%,100%{opacity:1;font-size:18px;letter-spacing:1px}
 }
 
-/* ── PASTKI KINO NOMI ── */
 #bottom-bar{
   position:absolute;bottom:0;left:0;right:0;
   background:linear-gradient(transparent,rgba(0,0,0,.85));
-  padding:32px 16px 16px;
-  pointer-events:none;
+  padding:32px 16px 16px;pointer-events:none;
 }
-#show-title{
-  font-size:15px;font-weight:600;
-  color:#fff;opacity:.9;
-  text-shadow:0 1px 4px rgba(0,0,0,.8);
-}
-#show-type{
-  font-size:12px;color:#aaa;margin-top:2px;
-}
+#show-title{font-size:15px;font-weight:600;color:#fff;opacity:.9;}
+#show-type{font-size:12px;color:#aaa;margin-top:2px;}
 
-/* ── LIVE BADGE ── */
 #live-badge{
   position:absolute;top:14px;left:14px;
   background:#e50914;color:#fff;
   font-size:11px;font-weight:700;
-  padding:3px 8px;border-radius:4px;
-  letter-spacing:1px;
+  padding:3px 8px;border-radius:4px;letter-spacing:1px;
   animation:blink 2s ease-in-out infinite;
 }
 
-/* ── LOADING ── */
+/* Loading */
 #loading{
   position:absolute;inset:0;
   display:flex;flex-direction:column;
@@ -77,14 +63,20 @@ video{width:100%;height:100%;object-fit:contain}
 #loading-spin{
   width:40px;height:40px;
   border:3px solid #333;border-top-color:#e50914;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
+  border-radius:50%;animation:spin 1s linear infinite;
   margin-bottom:12px;
 }
 #loading-txt{font-size:13px;color:#888}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ── NO SIGNAL ── */
+/* Retry button */
+#retry-btn{
+  margin-top:16px;background:#e50914;color:#fff;
+  border:none;padding:10px 24px;border-radius:8px;
+  font-size:14px;cursor:pointer;display:none;
+}
+
+/* No signal */
 #nosignal{
   position:absolute;inset:0;
   display:none;flex-direction:column;
@@ -100,27 +92,22 @@ video{width:100%;height:100%;object-fit:contain}
 #next-info h3{font-size:14px;color:#e50914;margin-bottom:6px}
 #next-info p{font-size:15px;font-weight:600}
 
-/* ── VIEWERS ── */
 #viewers{
   position:absolute;top:14px;left:70px;
   background:rgba(0,0,0,.6);border-radius:20px;
   padding:4px 10px;font-size:12px;color:#ccc;
   display:flex;align-items:center;gap:5px;
 }
-#viewers span{color:#e50914}
 </style>
 </head>
 <body>
-
 <div id="player-wrap">
-  <!-- Loading -->
   <div id="loading">
     <div id="loading-logo">JasurTV</div>
     <div id="loading-spin"></div>
     <div id="loading-txt">Yuklanmoqda...</div>
+    <button id="retry-btn" onclick="retryInit()">🔄 Qayta urinish</button>
   </div>
-
-  <!-- No signal -->
   <div id="nosignal">
     <div style="font-size:48px">📺</div>
     <h2>Hozir efir yo'q</h2>
@@ -131,23 +118,13 @@ video{width:100%;height:100%;object-fit:contain}
       <p id="next-time" style="color:#e50914;font-size:13px;margin-top:4px"></p>
     </div>
   </div>
-
-  <!-- Video -->
   <video id="vid" playsinline autoplay></video>
-
-  <!-- LIVE badge -->
   <div id="live-badge">🔴 LIVE</div>
-
-  <!-- Watermark -->
   <div id="watermark">
     <div id="wdot"></div>
     <div id="wtxt">JasurTV</div>
   </div>
-
-  <!-- Viewers -->
   <div id="viewers">👁 <span id="vcnt">0</span></div>
-
-  <!-- Bottom bar -->
   <div id="bottom-bar">
     <div id="show-title">JasurTV</div>
     <div id="show-type"></div>
@@ -159,94 +136,151 @@ const SERVER = "https://kino-server-1.onrender.com";
 const tg     = window.Telegram?.WebApp;
 const params = new URLSearchParams(location.search);
 const UID    = params.get("uid") || (tg?.initDataUnsafe?.user?.id || 0);
-const POS    = parseInt(params.get("pos") || "0");
 
 if (tg) { tg.expand(); tg.enableClosingConfirmation(); }
 
-const vid      = document.getElementById("vid");
-const loading  = document.getElementById("loading");
-const nosignal = document.getElementById("nosignal");
-const liveBadge= document.getElementById("live-badge");
-const showTitle= document.getElementById("show-title");
-const showType = document.getElementById("show-type");
-const vcnt     = document.getElementById("vcnt");
-const nextInfo = document.getElementById("next-info");
-const nextTitle= document.getElementById("next-title");
-const nextTime = document.getElementById("next-time");
+const vid       = document.getElementById("vid");
+const loading   = document.getElementById("loading");
+const loadingTxt= document.getElementById("loading-txt");
+const retryBtn  = document.getElementById("retry-btn");
+const nosignal  = document.getElementById("nosignal");
+const liveBadge = document.getElementById("live-badge");
+const showTitle = document.getElementById("show-title");
+const showType  = document.getElementById("show-type");
+const vcnt      = document.getElementById("vcnt");
+const nextInfo  = document.getElementById("next-info");
+const nextTitle = document.getElementById("next-title");
+const nextTime  = document.getElementById("next-time");
 
 const TYPE_LABEL = {movie:"b/f", music:"🎵", show:"k/s", ads:"📢"};
 
+let currentItemId = null;
+let retryCount    = 0;
+let pingInterval  = null;
+let syncInterval  = null;
+
+// ── Server uyg'onishi uchun kuting
+async function fetchWithWakeup() {
+  loadingTxt.textContent = "Server uyg'onmoqda...";
+
+  // 3 marta urinish, har biri 8 soniya
+  for (let i = 0; i < 5; i++) {
+    try {
+      const ctrl = new AbortController();
+      const timeout = setTimeout(() => ctrl.abort(), 8000);
+      const r = await fetch(`${SERVER}/jasurtv/current`, { signal: ctrl.signal });
+      clearTimeout(timeout);
+      if (r.ok) {
+        loadingTxt.textContent = "Yuklanmoqda...";
+        return await r.json();
+      }
+    } catch(e) {}
+    loadingTxt.textContent = `Ulanmoqda... (${i+1}/5)`;
+    await new Promise(r => setTimeout(r, 3000));
+  }
+  return null;
+}
+
 async function fetchSchedule() {
   try {
-    const r = await fetch(`${SERVER}/jasurtv/current`);
-    return await r.json();
-  } catch(e) {
-    return null;
-  }
+    const ctrl = new AbortController();
+    const timeout = setTimeout(() => ctrl.abort(), 10000);
+    const r = await fetch(`${SERVER}/jasurtv/current`, { signal: ctrl.signal });
+    clearTimeout(timeout);
+    return r.ok ? await r.json() : null;
+  } catch(e) { return null; }
+}
+
+function retryInit() {
+  retryBtn.style.display = "none";
+  loading.style.display  = "flex";
+  loadingTxt.textContent = "Qayta ulanmoqda...";
+  setTimeout(init, 500);
 }
 
 async function init() {
-  const data = await fetchSchedule();
+  loading.style.display   = "flex";
+  nosignal.style.display  = "none";
+  liveBadge.style.display = "none";
+  retryBtn.style.display  = "none";
 
-  if (!data || !data.current) {
-    // Efir yo'q
+  const data = retryCount === 0 ? await fetchWithWakeup() : await fetchSchedule();
+  retryCount++;
+
+  if (!data) {
+    loadingTxt.textContent = "Server bilan aloqa yo'q";
+    retryBtn.style.display = "block";
+    return;
+  }
+
+  if (!data.current) {
     loading.style.display  = "none";
     nosignal.style.display = "flex";
-    liveBadge.style.display = "none";
-    if (data?.next) {
-      nextTitle.textContent = data.next.title;
-      nextTime.textContent  = data.next.time + " da boshlanadi";
-      nextInfo.style.display = "block";
+    if (data.next) {
+      nextTitle.textContent      = data.next.title;
+      nextTime.textContent       = data.next.time + " da boshlanadi";
+      nextInfo.style.display     = "block";
     }
+    // 30 soniyada qayta tekshir
+    setTimeout(init, 30000);
     return;
   }
 
   const item = data.current;
-  const pos  = data.position_seconds || POS;
+  const pos  = data.position_seconds || 0;
 
-  // Kino nomini ko'rsat
   showTitle.textContent = item.title || "JasurTV";
   showType.textContent  = TYPE_LABEL[item.type] || "";
+  currentItemId         = item.id;
 
-  // Video URL
   const url = item.video_url || item.presigned_url || "";
   if (!url) {
-    // URL yo'q — faqat info ko'rsat
     loading.style.display = "none";
     nosignal.style.display = "flex";
     nosignal.querySelector("h2").textContent = `📺 ${item.title}`;
     nosignal.querySelector("p").textContent  = "Video yuklanmoqda...";
     liveBadge.style.display = "none";
+    setTimeout(init, 15000);
     return;
   }
 
   vid.src = url;
   vid.load();
-  vid.currentTime = pos;
+
+  // 5 soniyadan so'ng play boshlashga harakat
+  const playTimeout = setTimeout(() => {
+    loading.style.display   = "none";
+    liveBadge.style.display = "block";
+    vid.play().catch(()=>{});
+  }, 5000);
 
   vid.addEventListener("canplay", () => {
-    loading.style.display = "none";
+    clearTimeout(playTimeout);
+    loading.style.display   = "none";
+    liveBadge.style.display = "block";
+    vid.currentTime = pos;
     vid.play().catch(()=>{});
   }, {once: true});
 
   vid.addEventListener("error", () => {
+    clearTimeout(playTimeout);
     loading.style.display = "none";
     nosignal.style.display = "flex";
     liveBadge.style.display = "none";
+    setTimeout(init, 15000);
   });
 
-  // Auto-next: kino tugaganda keyingisiga o'tish
   vid.addEventListener("ended", () => {
     setTimeout(init, 2000);
   });
 }
 
-// Viewers yuborish
+// Ping (viewer count)
 async function pingViewer() {
   try {
     const r = await fetch(`${SERVER}/jasurtv/ping`, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
       body: JSON.stringify({uid: UID})
     });
     const d = await r.json();
@@ -254,34 +288,24 @@ async function pingViewer() {
   } catch(e) {}
 }
 
-// Har 30 soniyada schedule yangilash (kino o'tganda)
+// Jadval sync
 async function syncSchedule() {
   const data = await fetchSchedule();
-  if (!data) return;
-
-  if (data.current) {
-    showTitle.textContent = data.current.title || "JasurTV";
-    showType.textContent  = TYPE_LABEL[data.current.type] || "";
-    // Vaqt farqi 5 sekunddan oshsa sync qilish
-    const serverPos = data.position_seconds || 0;
-    if (Math.abs(vid.currentTime - serverPos) > 5) {
-      vid.currentTime = serverPos;
-    }
-    // Agar yangi kino boshlangan bo'lsa
-    if (data.current.id !== currentItemId) {
-      currentItemId = data.current.id;
-      init();
-    }
+  if (!data?.current) return;
+  if (data.current.id !== currentItemId) {
+    currentItemId = null;
+    retryCount = 0;
+    init();
   }
 }
-
-let currentItemId = null;
 
 // Start
 init();
 pingViewer();
-setInterval(pingViewer,   30000);  // 30 soniya
-setInterval(syncSchedule, 60000);  // 1 daqiqa
+if (pingInterval) clearInterval(pingInterval);
+if (syncInterval) clearInterval(syncInterval);
+pingInterval = setInterval(pingViewer,   30000);
+syncInterval = setInterval(syncSchedule, 60000);
 </script>
 </body>
 </html>
